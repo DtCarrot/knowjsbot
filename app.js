@@ -2,16 +2,16 @@ import request from 'request'
 import express from 'express'
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
+
 import TelegramBot from 'node-telegram-bot-api'
-import telegramBotHandler from './telegramBotHandler'
-import redisClient from './redisClient'
-
 dotenv.config()
-
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN
 const port = process.env.PORT
 const url = process.env.WEBHOOK_URL
 const bot = new TelegramBot(TELEGRAM_TOKEN)
+
+import telegramBotHandler from './telegramBotHandler'
+import redisClient from './redisClient'
 
 // This informs the Telegram servers of the new webhook.
 bot.setWebHook(`${url}/bot${TELEGRAM_TOKEN}`)

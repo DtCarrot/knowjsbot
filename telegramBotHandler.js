@@ -26,11 +26,11 @@ const createTelegramBotHandler = bot => {
           ],
         ],
       })
-      bot.sendMessage(msg.chat.id, startMsg, {
+      await bot.sendMessage(msg.chat.id, startMsg, {
         reply_markup,
       })
     } else {
-      bot.sendMessage(msg.chat.id, 'Invalid message')
+      await bot.sendMessage(msg.chat.id, 'Invalid message')
     }
   })
   bot.on('callback_query', async function(callbackQuery) {
@@ -41,9 +41,8 @@ const createTelegramBotHandler = bot => {
     if (data == 'start_quiz') {
       let userAnsweredCount = await getAsync(`telegram-${userId}-answered`)
       let userScore = await getAsync(`telegram-${userId}-score`)
-
       if (userScore >= 0) {
-        bot.sendMessage(
+        await bot.sendMessage(
           userId,
           'We see that you have a previously unfinished quiz. Restarting now...',
         )
@@ -55,7 +54,7 @@ const createTelegramBotHandler = bot => {
       let result = generateQuestion()
       const { questionDesc, answerOpts, answer } = result
       let reply_markup = genQuestionFormat(answerOpts, answer)
-      bot.sendMessage(
+      await bot.sendMessage(
         userId,
         `<b>Question ${parseInt(userAnsweredCount) +
           1} of ${maxScore}:</b>  ${questionDesc}`,
